@@ -1,3 +1,4 @@
+import formCallMe from "./form";
 //MODAL's open&close functions
 const openModal = (modObj) => {
   modObj.classList.remove("hide");
@@ -18,6 +19,7 @@ const modal = (modTriggerSelector, modalWindowSelector) => {
     item.addEventListener("click", (e) => {
       e.preventDefault();
       openModal(modalWindow);
+      formCallMe(".main_form.show");
     });
   });
 
