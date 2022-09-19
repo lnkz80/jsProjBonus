@@ -1,0 +1,47 @@
+{
+  "members": [
+    {
+      "id": 1,
+      "name": "Molecule Man",
+      "age": 29,
+      "secretIdentity": "Dan Jukes",
+      "powers": [
+        "Radiation resistance",
+        "Turning tiny",
+        "Radiation blast"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Madame Uppercut",
+      "age": 39,
+      "secretIdentity": "Jane Wilson",
+      "powers": [
+        "Million tonne punch",
+        "Damage resistance",
+        "Superhuman reflexes"
+      ]
+    },
+    {
+      "id": 3,
+      "name": "Alex",
+      "age": 42,
+      "secretIdentity": "re1ze"
+    },
+    {
+      "userName": "111",
+      "userPhone": "2222",
+      "id": 4
+    },
+    {
+      "userName": "awd",
+      "userPhone": "345",
+      "id": 5
+    },
+    {
+      "userName": "11111",
+      "userPhone": "555555555555",
+      "id": 6
+    }
+  ]
+}

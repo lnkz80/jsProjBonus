@@ -104,11 +104,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 document.addEventListener("DOMContentLoaded", () => {
-  const reqUrl = "https://jsonplaceholder.typicode.com/todos/1";
-  const req = Object(_services_postData__WEBPACK_IMPORTED_MODULE_0__["default"])("GET", reqUrl);
-  console.log(req); // .then((data) => console.log(data))
-  // .catch((err) => console.log(err));
-
   Object(_modules_modal__WEBPACK_IMPORTED_MODULE_2__["default"])(".popup_engineer_btn", ".popup_engineer");
   Object(_modules_modal__WEBPACK_IMPORTED_MODULE_2__["default"])(".phone_link", ".popup");
   Object(_modules_form__WEBPACK_IMPORTED_MODULE_1__["default"])(".main_form");
@@ -126,6 +121,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _services_postData__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../services/postData */ "./src/js/services/postData.js");
+
+
 const formCallMe = formSelector => {
   const forms = document.querySelectorAll(formSelector);
   const numbers = /^[0-9]+$/;
@@ -145,10 +143,16 @@ const formCallMe = formSelector => {
       } //get data from form fields and convert to json
 
 
-      const formData = new FormData(form);
-      const json = JSON.stringify(Object.fromEntries(formData.entries())); //HERE MUST BE A POSTDATA FUNCTION WITH AJAX
+      const formData = new FormData(form); // const json = JSON.stringify(Object.fromEntries(formData.entries()));
+      //HERE MUST BE A POSTDATA FUNCTION WITH AJAX
 
-      console.log(Object.fromEntries(formData.entries()));
+      const postObj = Object.fromEntries(formData.entries());
+      const reqUrl = "http://localhost:3000/members";
+      let nextPostId = 1;
+      Object(_services_postData__WEBPACK_IMPORTED_MODULE_0__["default"])(reqUrl).then(data => {
+        postObj.id = data.length + 1;
+        Object(_services_postData__WEBPACK_IMPORTED_MODULE_0__["default"])(reqUrl, postObj).then(data => console.log(data)).catch(err => console.error(err));
+      }).catch(err => console.error(err));
       console.log("Data has been posted!");
     });
   });
@@ -223,25 +227,41 @@ __webpack_require__.r(__webpack_exports__);
 //     console.log(JSON.parse(request.response));
 //   });
 // };
-const postData = (reqMethod, reqUrl) => {
-  return new Promise((resolve, reject) => {
-    const xhr = new XMLHttpRequest();
-    xhr.open(reqMethod, reqUrl);
+//VAR 2 - Minin ex
+// const postData = (reqMethod, reqUrl) => {
+//   return new Promise((resolve, reject) => {
+//     const xhr = new XMLHttpRequest();
+//     xhr.open(reqMethod, reqUrl);
+//     xhr.onload = () => {
+//       if (xhr.status >= 400) {
+//         reject(xhr.response);
+//       } else {
+//         resolve(xhr.response);
+//       }
+//     };
+//     xhr.onerror = () => {
+//       reject(xhr.response);
+//     };
+//     xhr.send();
+//   });
+// };
+//VAR 3 - FETCH
+const postData = async function (url) {
+  let data = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+  const postSettings = {
+    method: "POST",
+    headers: {
+      "Content-type": "application/json"
+    },
+    body: JSON.stringify(data)
+  };
+  const req = await fetch(url, data ? postSettings : null);
 
-    xhr.onload = () => {
-      if (xhr.status >= 400) {
-        reject(xhr.response);
-      } else {
-        resolve(xhr.response);
-      }
-    };
+  if (!req.ok) {
+    throw new Error(`Could not fetch ${url}, receive status ${req.status}`);
+  }
 
-    xhr.onerror = () => {
-      reject(xhr.response);
-    };
-
-    xhr.send();
-  });
+  return await req.json();
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (postData);

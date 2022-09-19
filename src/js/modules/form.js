@@ -1,3 +1,5 @@
+import postData from "../services/postData";
+
 const formCallMe = (formSelector) => {
   const forms = document.querySelectorAll(formSelector);
   const numbers = /^[0-9]+$/;
@@ -16,10 +18,21 @@ const formCallMe = (formSelector) => {
       }
       //get data from form fields and convert to json
       const formData = new FormData(form);
-      const json = JSON.stringify(Object.fromEntries(formData.entries()));
+      // const json = JSON.stringify(Object.fromEntries(formData.entries()));
 
       //HERE MUST BE A POSTDATA FUNCTION WITH AJAX
-      console.log(Object.fromEntries(formData.entries()));
+      const postObj = Object.fromEntries(formData.entries());
+
+      const reqUrl = "http://localhost:3000/members";
+      let nextPostId = 1;
+      postData(reqUrl)
+        .then((data) => {
+          postObj.id = data.length + 1;
+          postData(reqUrl, postObj)
+            .then((data) => console.log(data))
+            .catch((err) => console.error(err));
+        })
+        .catch((err) => console.error(err));
       console.log("Data has been posted!");
     });
   });
