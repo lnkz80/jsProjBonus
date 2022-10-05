@@ -19,7 +19,7 @@ const modal = (modTriggerSelector, modalWindowSelector) => {
     item.addEventListener("click", (e) => {
       e.preventDefault();
       openModal(modalWindow);
-      formCallMe(".main_form.show");
+      formCallMe(".form_popup", modalWindow);
     });
   });
 
@@ -35,3 +35,6 @@ const modal = (modTriggerSelector, modalWindowSelector) => {
 };
 
 export default modal;
+export {
+  closeModal
+};

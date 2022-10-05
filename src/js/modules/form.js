@@ -1,9 +1,12 @@
 import postData from "../services/postData";
+import {
+  closeModal
+} from "./modal";
 
-const formCallMe = (formSelector) => {
-  const forms = document.querySelectorAll(formSelector);
+const formCallMe = (formSelector, popupDivSelector = null) => {
+  const currentForm = document.querySelectorAll(formSelector);
   const numbers = /^[0-9]+$/;
-  forms.forEach((form) => {
+  currentForm.forEach((form) => {
     form.querySelector("button").addEventListener("click", function (e) {
       e.preventDefault();
       if (!form.userPhone.value.match(numbers)) {
@@ -13,25 +16,20 @@ const formCallMe = (formSelector) => {
       }
       //get data from form fields and convert to json
       const formData = new FormData(form);
-
       const postObj = Object.fromEntries(formData.entries()),
-        buttonValue = this.textContent,
         spinner = this.querySelector("span");
 
-      //SPINNER
-      // this.innerHTML = '<img src="./assets/img/main/spinner.gif">';
-      // this.innerHTML = '<span class="submit-spinner submit-spinner_hide"></span>';
+      //SPINNER      
       spinner.classList.remove('submit-spinner_hide');
       this.disabled = true;
       this.style.color = "grey";
       this.style.filter = "grayscale(70%)";
       const reqUrl = "http://localhost:3000/members";
-      // let nextPostId = 1;
+
 
       postData(reqUrl, postObj)
         .then((data) => {
           console.log(data);
-          // this.textContent = buttonValue;
         })
         .then(
           () => {
@@ -46,7 +44,8 @@ const formCallMe = (formSelector) => {
             this.parentElement.append(span);
             setTimeout(() => {
               span.remove();
-            }, 3000);
+              closeModal(popupDivSelector);
+            }, 2000);
           }
         )
         .catch((err) => console.error(err));

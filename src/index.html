@@ -807,11 +807,11 @@
             <div class="popup_content text-center">
                 <button type="button" class="popup_close" data-close><strong>&times;</strong></button>
                 <div class="popup_form">
-                    <form class="form" action="#">
+                    <form class="form form_popup" action="#">
                       <h2>Введите ваши данные <br>и нажмите заказать звонок</h2>
                         <input class="form-control form_input" name="userName" required type="text" placeholder="Введите ваше имя">
                         <input class="form-control form_input" name="userPhone" required type="text" placeholder="Введите телефон">
-                        <button class="text-uppercase btn-block button" name="submit" type="submit">Заказать звонок</button>
+                        <button class="text-uppercase btn-block button" name="submit" type="submit"><span class="submit-spinner submit-spinner_hide"></span>Заказать звонок</button>
                         <p class="form_notice">Перезвоним в течение 10 минут</p>
                     </form>
                 </div>
@@ -825,11 +825,11 @@
             <div class="popup_content text-center">
                 <button type="button" class="popup_close" data-close><strong>&times;</strong></button>
                 <div class="popup_form">
-                    <form class="form" action="#">
+                    <form class="form form_popup" action="#">
                       <h2>Запишитесь сегодня на <br><span>бесплатный замер</span></h2>
                       <input class="form-control form_input" name="userName" required type="text" placeholder="Введите ваше имя">
                       <input class="form-control form_input" name="userPhone" required type="text" placeholder="Введите телефон">
-                      <button class="text-uppercase btn-block button" name="submit" type="submit">Вызвать замерщика!</button>
+                      <button class="text-uppercase btn-block button" name="submit" type="submit"><span class="submit-spinner submit-spinner_hide"></span>Вызвать замерщика!</button>
                       <p class="form_notice">Ваши данные конфиденциальны</p>
                     </form>
                 </div>
@@ -921,7 +921,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <!-- Add slick.js -->
     <script src="assets/slick/slick.min.js"></script>
-    <!-- Initialize modal, sliders -->
+    <!-- Initialize modal, sliders -->    
     <script src="./script.js"></script>
     
 

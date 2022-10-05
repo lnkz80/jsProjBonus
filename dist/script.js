@@ -81,7 +81,7 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = "./src/js/main.js");
+/******/ 	return __webpack_require__(__webpack_require__.s = 0);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -4463,6 +4463,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _services_postData__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./services/postData */ "./src/js/services/postData.js");
 /* harmony import */ var _modules_form__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./modules/form */ "./src/js/modules/form.js");
 /* harmony import */ var _modules_modal__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./modules/modal */ "./src/js/modules/modal.js");
+/* harmony import */ var _modules_tabs__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./modules/tabs */ "./src/js/modules/tabs.js");
+
 
 
 
@@ -4472,7 +4474,7 @@ document.addEventListener("DOMContentLoaded", function () {
   Object(_modules_modal__WEBPACK_IMPORTED_MODULE_2__["default"])(".popup_engineer_btn", ".popup_engineer");
   Object(_modules_modal__WEBPACK_IMPORTED_MODULE_2__["default"])(".phone_link", ".popup");
   Object(_modules_form__WEBPACK_IMPORTED_MODULE_1__["default"])(".main_form");
-  Object(_modules_form__WEBPACK_IMPORTED_MODULE_1__["default"])(".popup_form");
+  Object(_modules_tabs__WEBPACK_IMPORTED_MODULE_3__["default"])();
 });
 
 /***/ }),
@@ -4501,6 +4503,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var core_js_modules_web_dom_collections_iterator__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! core-js/modules/web.dom-collections.iterator */ "./node_modules/core-js/modules/web.dom-collections.iterator.js");
 /* harmony import */ var core_js_modules_web_dom_collections_iterator__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_web_dom_collections_iterator__WEBPACK_IMPORTED_MODULE_6__);
 /* harmony import */ var _services_postData__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../services/postData */ "./src/js/services/postData.js");
+/* harmony import */ var _modal__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./modal */ "./src/js/modules/modal.js");
+
 
 
 
@@ -4511,9 +4515,10 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var formCallMe = function formCallMe(formSelector) {
-  var forms = document.querySelectorAll(formSelector);
+  var popupDivSelector = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+  var currentForm = document.querySelectorAll(formSelector);
   var numbers = /^[0-9]+$/;
-  forms.forEach(function (form) {
+  currentForm.forEach(function (form) {
     form.querySelector("button").addEventListener("click", function (e) {
       var _this = this;
 
@@ -4528,19 +4533,15 @@ var formCallMe = function formCallMe(formSelector) {
 
       var formData = new FormData(form);
       var postObj = Object.fromEntries(formData.entries()),
-          buttonValue = this.textContent,
-          spinner = this.querySelector("span"); //SPINNER
-      // this.innerHTML = '<img src="./assets/img/main/spinner.gif">';
-      // this.innerHTML = '<span class="submit-spinner submit-spinner_hide"></span>';
+          spinner = this.querySelector("span"); //SPINNER      
 
       spinner.classList.remove('submit-spinner_hide');
       this.disabled = true;
       this.style.color = "grey";
       this.style.filter = "grayscale(70%)";
-      var reqUrl = "http://localhost:3000/members"; // let nextPostId = 1;
-
+      var reqUrl = "http://localhost:3000/members";
       Object(_services_postData__WEBPACK_IMPORTED_MODULE_7__["default"])(reqUrl, postObj).then(function (data) {
-        console.log(data); // this.textContent = buttonValue;
+        console.log(data);
       }).then(function () {
         spinner.classList.add('submit-spinner_hide');
         _this.disabled = false;
@@ -4555,7 +4556,8 @@ var formCallMe = function formCallMe(formSelector) {
 
         setTimeout(function () {
           span.remove();
-        }, 3000);
+          Object(_modal__WEBPACK_IMPORTED_MODULE_8__["closeModal"])(popupDivSelector);
+        }, 2000);
       }).catch(function (err) {
         return console.error(err);
       });
@@ -4572,11 +4574,12 @@ var formCallMe = function formCallMe(formSelector) {
 /*!*********************************!*\
   !*** ./src/js/modules/modal.js ***!
   \*********************************/
-/*! exports provided: default */
+/*! exports provided: default, closeModal */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "closeModal", function() { return closeModal; });
 /* harmony import */ var core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! core-js/modules/web.dom-collections.for-each */ "./node_modules/core-js/modules/web.dom-collections.for-each.js");
 /* harmony import */ var core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _form__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./form */ "./src/js/modules/form.js");
@@ -4601,7 +4604,7 @@ var modal = function modal(modTriggerSelector, modalWindowSelector) {
     item.addEventListener("click", function (e) {
       e.preventDefault();
       openModal(modalWindow);
-      Object(_form__WEBPACK_IMPORTED_MODULE_1__["default"])(".main_form.show");
+      Object(_form__WEBPACK_IMPORTED_MODULE_1__["default"])(".form_popup", modalWindow);
     });
   }); //close modal window event (add "data-close attr to index.html")
 
@@ -4613,6 +4616,47 @@ var modal = function modal(modTriggerSelector, modalWindowSelector) {
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (modal);
+
+
+/***/ }),
+
+/***/ "./src/js/modules/tabs.js":
+/*!********************************!*\
+  !*** ./src/js/modules/tabs.js ***!
+  \********************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! core-js/modules/web.dom-collections.for-each */ "./node_modules/core-js/modules/web.dom-collections.for-each.js");
+/* harmony import */ var core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_0__);
+
+
+var tabs = function tabs() {
+  var tabContent = document.querySelectorAll(".glazing_content"),
+      tabBlock = document.querySelectorAll(".glazing_block");
+
+  var showHideTab = function showHideTab(tabs, index) {
+    tabs.forEach(function (tab) {
+      tab.classList.remove("show");
+      tab.classList.add("hide");
+    });
+    tabs[index].classList.remove("hide");
+    tabs[index].classList.add("show");
+  };
+
+  tabBlock.forEach(function (block, idx) {
+    block.querySelector("img").style.cursor = "pointer";
+    block.children.forEach(function (elem) {
+      elem.addEventListener("click", function () {
+        showHideTab(tabContent, idx);
+      });
+    });
+  });
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (tabs);
 
 /***/ }),
 
@@ -4714,6 +4758,99 @@ var postData = function postData(url) {
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (postData);
+
+/***/ }),
+
+/***/ "./src/js/slider.js":
+/*!**************************!*\
+  !*** ./src/js/slider.js ***!
+  \**************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+$(document).ready(function () {
+  $('.glazing_slider').slick({
+    infinite: true,
+    slidesToShow: 5,
+    slidesToScroll: 1,
+    responsive: [{
+      breakpoint: 1201,
+      settings: {
+        slidesToShow: 4,
+        prevArrow: '<button class="prev arrow"></button>',
+        nextArrow: '<button class="next arrow"></button>',
+        slidesToScroll: 1
+      }
+    }, {
+      breakpoint: 992,
+      settings: {
+        slidesToShow: 3,
+        prevArrow: '<button class="prev arrow"></button>',
+        nextArrow: '<button class="next arrow"></button>',
+        slidesToScroll: 2
+      }
+    }, {
+      breakpoint: 768,
+      settings: {
+        slidesToShow: 2,
+        prevArrow: '<button class="prev arrow"></button>',
+        nextArrow: '<button class="next arrow"></button>',
+        slidesToScroll: 2
+      }
+    }, {
+      breakpoint: 530,
+      settings: {
+        slidesToShow: 1,
+        prevArrow: '<button class="prev arrow"></button>',
+        nextArrow: '<button class="next arrow"></button>',
+        slidesToScroll: 1
+      }
+    }]
+  });
+  $('.decoration_slider').slick({
+    infinite: true,
+    slidesToShow: 4,
+    slidesToScroll: 1,
+    responsive: [{
+      breakpoint: 1200,
+      settings: {
+        slidesToShow: 3,
+        prevArrow: '<button class="prev arrow"></button>',
+        nextArrow: '<button class="next arrow"></button>',
+        slidesToScroll: 1
+      }
+    }, {
+      breakpoint: 992,
+      settings: {
+        slidesToShow: 2,
+        prevArrow: '<button class="prev arrow"></button>',
+        nextArrow: '<button class="next arrow"></button>',
+        slidesToScroll: 2
+      }
+    }, {
+      breakpoint: 768,
+      settings: {
+        slidesToShow: 1,
+        prevArrow: '<button class="prev arrow"></button>',
+        nextArrow: '<button class="next arrow"></button>',
+        slidesToScroll: 1
+      }
+    }]
+  });
+});
+
+/***/ }),
+
+/***/ 0:
+/*!*************************************************!*\
+  !*** multi ./src/js/main.js ./src/js/slider.js ***!
+  \*************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+__webpack_require__(/*! /Users/alex/Desktop/TrueJS/udemy/ExtProj2022/jsProjBonus/src/js/main.js */"./src/js/main.js");
+module.exports = __webpack_require__(/*! /Users/alex/Desktop/TrueJS/udemy/ExtProj2022/jsProjBonus/src/js/slider.js */"./src/js/slider.js");
+
 
 /***/ })
 
