@@ -1,4 +1,4 @@
-import {showHideTab} from "../services/helpers"
+import {showHideTab} from "../services/helpers";
 
 const tabs = () => {
     const tabContent = document.querySelectorAll(".glazing_content"),

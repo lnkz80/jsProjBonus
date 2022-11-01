@@ -9,4 +9,8 @@ const showHideTab = (tabs, index) => {
 
 const removeClassFromAllElements = (el, rmClass) => el.forEach(item=>item.classList.remove(rmClass));
 
-export {showHideTab, removeClassFromAllElements}
+const isNumber = (num) => {
+	return typeof num === 'number' && !isNaN(num);
+};
+
+export {showHideTab, removeClassFromAllElements, isNumber};
