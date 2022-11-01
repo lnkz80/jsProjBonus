@@ -3,6 +3,7 @@ import postData from "./services/postData";
 import formCallMe from "./modules/form";
 import modal from "./modules/modal";
 import tabs from "./modules/tabs";
+import calc from "./modules/calc"
 
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -10,4 +11,5 @@ document.addEventListener("DOMContentLoaded", () => {
   modal(".phone_link", ".popup");
   formCallMe(".main_form");
   tabs();
+  calc();
 });

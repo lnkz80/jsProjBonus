@@ -41,6 +41,10 @@ textarea:focus {
   display: none;
 }
 
+.text-center img {
+  margin: 0 auto;
+}
+
 .form {
   /*margin-top: 2rem;*/
   padding: 2rem 5rem;
