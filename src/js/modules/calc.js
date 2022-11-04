@@ -4,6 +4,8 @@ const calcData ={
     type: '1',
     width: 0,
     height: 0,
+    profileType: 'tree',
+    profileWoC: 'cold'
 };
 
 // інтерактив показу превьюшек типу балконів у першому вікні калькулятора
@@ -23,14 +25,15 @@ const showHidePreview = () => {
 
 
 const calc = () => {
-    const popupCalc = document.querySelector(".popup_calc");
+    const popupCalc = document.querySelector(".popup_calc"),
+    popupCalcProfile = document.querySelector(".popup_calc_profile");
     showHidePreview();
     
     //?===== temp option for dev =====>
-    popupCalc.style.display = "block";
+    popupCalcProfile.style.display = "block";
     //?===============================<
-   
-    popupCalc.querySelector('.button').addEventListener('click', ()=>{
+    
+    popupCalc.querySelector('.popup_calc_button').addEventListener('click', ()=>{
         const width = +document.getElementById('width').value,
         height = +document.getElementById('height').value;        
         if (!isNumber(width) || !isNumber(height) || width<=0 || height<=0) {
@@ -39,15 +42,33 @@ const calc = () => {
         }
         calcData.width = width;
         calcData.height = height;
-        //! Add transition to 2nd modal window 
         
+        //? Transition to 2nd modal window 
+        popupCalc.style.display = "none";
+        popupCalcProfile.style.display = "block";
+    });
+
+    popupCalcProfile.addEventListener("click", (e)=>{
+        if (e.target&&e.target.classList.contains("checkbox")){
+            calcData.profileWoC = e.target.nextElementSibling.id;            
+            popupCalcProfile.querySelectorAll(".checkbox").forEach(item=>{
+                if(item != e.target){
+                    item.checked = false;
+                }
+                
+            });
+        }
+    });
+    
+    popupCalcProfile.querySelector('.popup_calc_profile_button').addEventListener('click', ()=>{        
+        calcData.profileType = popupCalcProfile.querySelector('#view_type').value;       
+        //! Make transition to 3nd modal window 
         
-
-
         //?==== temp show data obj in log =====>
         console.log('calcData: ', calcData);
         //?====================================<
     });
+    
 
 };
 
